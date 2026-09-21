@@ -1,0 +1,40 @@
+name: Scoutbase discovery job
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_id:
+        required: true
+        type: string
+      scope_id:
+        required: true
+        type: string
+      target:
+        required: true
+        type: string
+      kind:
+        required: true
+        type: string
+      mode:
+        required: true
+        type: choice
+        options:
+          - passive
+          - active
+jobs:
+  discovery:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run guarded discovery
+        env:
+          JOB_ID: ${{ inputs.job_id }}
+          TARGET: ${{ inputs.target }}
+          SCOPE_KIND: ${{ inputs.kind }}
+          SCAN_MODE: ${{ inputs.mode }}
+          CALLBACK_URL: ${{ secrets.SCOUTBASE_CALLBACK_URL }}
+          SCOUTBASE_API_TOKEN: ${{ secrets.SCOUTBASE_API_TOKEN }}
+        run: node runner/discovery.mjs
