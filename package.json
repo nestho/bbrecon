@@ -7,11 +7,17 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "echo \"No tests configured\""
+    "api": "node server/api.js",
+    "worker": "node server/worker.js",
+    "test": "node --check app.js && node --check server/api.js && node --check server/worker.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "pg": "^8.23.0",
+    "redis": "^6.2.1"
+  },
   "devDependencies": {
     "vite": "^8.3.0"
   }
